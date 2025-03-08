@@ -1,0 +1,256 @@
+{
+  "employees": [
+    {
+      "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "name": "John Doe",
+      "department": "Engineering",
+      "status": "OFFBOARDED",
+      "email": "some.email@wp.pl",
+      "equipments": [
+        {
+          "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+          "name": "Macbook air"
+        },
+        {
+          "id": "6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b",
+          "name": "Magic Mouse"
+        }
+      ]
+    },
+    {
+      "id": "3e7c3f6d-bdf5-46ae-8d90-171300f27ae2",
+      "name": "Jane Smith",
+      "department": "Marketing",
+      "status": "OFFBOARDED",
+      "email": "jane.smith@wp.pl",
+      "equipments": [
+        {
+          "id": "5dde7874-c2cb-4f0f-a3d9-b8f6f93eb1c9",
+          "name": "Dell XPS"
+        },
+        {
+          "id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+          "name": "Logitech Mouse"
+        }
+      ]
+    },
+    {
+      "id": "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed",
+      "name": "Michael Johnson",
+      "department": "Sales",
+      "status": "ACTIVE",
+      "email": "michael.johnson@wp.pl",
+      "equipments": [
+        {
+          "id": "4c4f1d24-0e3d-4de2-b64b-a8f0c246c0ff",
+          "name": "Lenovo ThinkPad"
+        },
+        {
+          "id": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
+          "name": "Wireless Headphones"
+        }
+      ]
+    },
+    {
+      "id": "c2310c1e-5a5a-4ec8-9c9d-75b5fc9d238f",
+      "name": "Emily Davis",
+      "department": "Human Resources",
+      "status": "ACTIVE",
+      "email": "emily.davis@wp.pl",
+      "equipments": [
+        {
+          "id": "d9e7a184-5d5b-4c5a-8172-c80fc5c4e2d5",
+          "name": "HP Elitebook"
+        },
+        {
+          "id": "a3c8b952-49fc-4ce8-a03d-dc3bdce59d5f",
+          "name": "Ergonomic Keyboard"
+        }
+      ]
+    },
+    {
+      "id": "71f0c4d9-3a7a-4b0f-b4c2-bc785a16c2a1",
+      "name": "Robert Wilson",
+      "department": "Engineering",
+      "status": "ACTIVE",
+      "email": "robert.wilson@wp.pl",
+      "equipments": [
+        {
+          "id": "e8fd159b-57c4-4d36-9bd7-a59ca13057bb",
+          "name": "MacBook Pro"
+        },
+        {
+          "id": "bc23a9d5-1c4c-4b1e-b7d9-a8a3f0cb4cef",
+          "name": "External Monitor"
+        }
+      ]
+    },
+    {
+      "id": "8f7b5db5-9735-4f09-a420-5331d2db8c8a",
+      "name": "Sarah Thompson",
+      "department": "Finance",
+      "status": "ACTIVE",
+      "email": "sarah.thompson@wp.pl",
+      "equipments": [
+        {
+          "id": "d67c1842-7f48-4a37-9b6f-8e2e75a3fbee",
+          "name": "Dell Latitude"
+        },
+        {
+          "id": "e8b5a1f9-9c02-4d19-b8d2-9a0a8e731794",
+          "name": "Calculator"
+        }
+      ]
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4a5b-9c8d-7e6f5a4b3c2d",
+      "name": "David Brown",
+      "department": "Customer Support",
+      "status": "ACTIVE",
+      "email": "david.brown@wp.pl",
+      "equipments": [
+        {
+          "id": "f1e2d3c4-b5a6-7f8e-9d0c-1b2a3c4d5e6f",
+          "name": "Headset"
+        },
+        {
+          "id": "a9b8c7d6-e5f4-3a2b-1c0d-9e8f7a6b5c4d",
+          "name": "Chromebook"
+        }
+      ]
+    },
+    {
+      "id": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+      "name": "Jennifer Lee",
+      "department": "Marketing",
+      "status": "ACTIVE",
+      "email": "jennifer.lee@wp.pl",
+      "equipments": [
+        {
+          "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+          "name": "iPad Pro"
+        },
+        {
+          "id": "7e8f9a0b-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+          "name": "Apple Pencil"
+        }
+      ]
+    },
+    {
+      "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+      "name": "Thomas Garcia",
+      "department": "Engineering",
+      "status": "ACTIVE",
+      "email": "thomas.garcia@wp.pl",
+      "equipments": [
+        {
+          "id": "9a0b1c2d-3e4f-5a6b-7c8d-9e0f1a2b3c4d",
+          "name": "MacBook Pro"
+        },
+        {
+          "id": "5c6d7e8f-9a0b-1c2d-3e4f-5a6b7c8d9e0f",
+          "name": "Mechanical Keyboard"
+        },
+        {
+          "id": "1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b",
+          "name": "Dual Monitors"
+        }
+      ]
+    },
+    {
+      "id": "7c8d9e0f-1a2b-3c4d-5e6f-7a8b9c0d1e2f",
+      "name": "Amanda Martinez",
+      "department": "Human Resources",
+      "status": "ACTIVE",
+      "email": "amanda.martinez@wp.pl",
+      "equipments": [
+        {
+          "id": "3e4f5a6b-7c8d-9e0f-1a2b-3c4d5e6f7a8b",
+          "name": "Lenovo Yoga"
+        },
+        {
+          "id": "9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
+          "name": "Wireless Mouse"
+        }
+      ]
+    },
+    {
+      "id": "5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d",
+      "name": "Kevin Wilson",
+      "department": "Sales",
+      "status": "OFFBOARDED",
+      "email": "kevin.wilson@wp.pl",
+      "equipments": [
+        {
+          "id": "1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6c",
+          "name": "iPhone"
+        },
+        {
+          "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+          "name": "Tablet"
+        }
+      ]
+    },
+    {
+      "id": "1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f",
+      "name": "Olivia Taylor",
+      "department": "Finance",
+      "status": "ACTIVE",
+      "email": "olivia.taylor@wp.pl",
+      "equipments": [
+        {
+          "id": "3a4b5c6d-7e8f-9a0b-1c2d-3e4f5a6b7c8d",
+          "name": "Surface Pro"
+        },
+        {
+          "id": "9e0f1a2b-3c4d-5e6f-7a8b-9c0d1e2f3a4b",
+          "name": "Docking Station"
+        }
+      ]
+    }
+  ],
+  "offboardingRequests": [
+    {
+      "id": "d67c1842-7f48-4a37-9b6f-8e2e75a3fbed",
+      "employeeId": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "address": {
+        "streetLine1": "Kocmyrzowska 1",
+        "country": "Poland",
+        "postalCode": "13-231",
+        "receiver": "Stefan Batory"
+      },
+      "notes": "Employee returning all equipment by courier",
+      "phone": "+48123123123",
+      "email": "john.doe@personal-email.com",
+      "timestamp": "2025-03-07T21:48:00.795Z"
+    },
+    {
+      "id": "e8b5a1f9-9c02-4d19-b8d2-9a0a8e731793",
+      "employeeId": "3e7c3f6d-bdf5-46ae-8d90-171300f27ae2",
+      "address": {
+        "streetLine1": "Krakowska 42",
+        "country": "Poland",
+        "postalCode": "30-001",
+        "receiver": "Jane Smith"
+      },
+      "notes": "Employee will return equipment in person",
+      "phone": "+48987654321",
+      "email": "jane.smith@personal-email.com",
+      "timestamp": "2025-03-07T21:49:44.214Z"
+    },
+    {
+      "id": "b5c6d7e8-f9a0-b1c2-d3e4-f5a6b7c8d9e0",
+      "employeeId": "5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d",
+      "address": {
+        "streetLine1": "Warszawska 15",
+        "country": "Poland",
+        "postalCode": "31-155",
+        "receiver": "Kevin Wilson"
+      },
+      "notes": "Equipment has minor damage on screen",
+      "phone": "+48555666777",
+      "email": "kevin.wilson@personal-email.com",
+      "timestamp": "2025-04-12T14:30:22.123Z"
+    }
+  ]
+}
