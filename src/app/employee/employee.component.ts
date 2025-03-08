@@ -12,6 +12,5 @@ export class EmployeeComponent {
 
   ngOnInit() {
     const userId = this.route.snapshot.params['userId'];
-    
   }
 }
