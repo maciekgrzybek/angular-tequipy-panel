@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { Employee } from './employee';
-import { Observable, tap, switchMap, map } from 'rxjs';
+import { Observable, tap, switchMap, map, catchError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface OffboardingRequestBody {
@@ -22,6 +22,9 @@ export interface OffboardingRequestBody {
 export class EmployeeService {
   private apiUrl = environment.apiUrl;
 
+  // Use functional injection instead of constructor injection
+  private http = inject(HttpClient);
+
   // Signal to store the list of employees
   private employeesSignal = signal<Employee[]>([]);
 
@@ -34,7 +37,17 @@ export class EmployeeService {
   // Public readonly accessor for the current employee signal
   public readonly currentEmployee = this.currentEmployeeSignal.asReadonly();
 
-  constructor(private http: HttpClient) {
+  // Computed signal for active employees
+  public readonly activeEmployees = computed(() =>
+    this.employeesSignal().filter((emp) => emp.status === 'ACTIVE')
+  );
+
+  // Computed signal for offboarded employees
+  public readonly offboardedEmployees = computed(() =>
+    this.employeesSignal().filter((emp) => emp.status === 'OFFBOARDED')
+  );
+
+  constructor() {
     // Initialize employees on service creation
     this.getAllEmployees();
   }
@@ -48,12 +61,21 @@ export class EmployeeService {
     return this.http.get<Employee[]>(`${this.apiUrl}/employees`).pipe(
       tap((employees) => {
         this.employeesSignal.set(employees);
+      }),
+      catchError((error) => {
+        console.error('Error fetching employees:', error);
+        return of([]);
       })
     );
   }
 
   getEmployeeById(id: string): Observable<Employee> {
-    return this.http.get<Employee>(`${this.apiUrl}/employees/${id}`);
+    return this.http.get<Employee>(`${this.apiUrl}/employees/${id}`).pipe(
+      catchError((error) => {
+        console.error(`Error fetching employee with id ${id}:`, error);
+        throw error;
+      })
+    );
   }
 
   getEmployeeByIdOptimized(id: string): Observable<Employee> {
@@ -63,16 +85,17 @@ export class EmployeeService {
     if (existingEmployee) {
       // Set the current employee signal and return as Observable
       this.currentEmployeeSignal.set(existingEmployee);
-      return new Observable<Employee>((observer) => {
-        observer.next(existingEmployee);
-        observer.complete();
-      });
+      return of(existingEmployee);
     } else {
       // Fetch from API if not available locally
       return this.getEmployeeById(id).pipe(
         tap((employee) => {
           // Update the current employee signal with the fetched data
           this.currentEmployeeSignal.set(employee);
+        }),
+        catchError((error) => {
+          console.error(`Error fetching employee with id ${id}:`, error);
+          throw error;
         })
       );
     }
@@ -105,6 +128,10 @@ export class EmployeeService {
             // Return the original updated employee from the offboarding response
             map(() => updatedEmployee)
           );
+        }),
+        catchError((error) => {
+          console.error(`Error offboarding employee with id ${id}:`, error);
+          throw error;
         })
       );
   }

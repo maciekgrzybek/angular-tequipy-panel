@@ -1,0 +1,32 @@
+mat-card {
+  margin: 20px;
+}
+
+mat-card-content {
+  margin-top: 20px;
+}
+
+mat-card-content div {
+  margin-bottom: 20px;
+}
+
+mat-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  margin: 20px;
+}
+
+.error-message {
+  color: #f44336;
+  margin-bottom: 1rem;
+}

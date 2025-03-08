@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { EmployeeService } from '../features/employee/employee.service';
 import { Employee } from '../features/employee/employee';
@@ -9,6 +9,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgIf, NgFor } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { catchError, finalize } from 'rxjs';
+
 @Component({
   selector: 'app-employee',
   standalone: true,
@@ -26,9 +28,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.css',
 })
-export class EmployeeComponent {
+export class EmployeeComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  employeeService = inject(EmployeeService);
+  private readonly employeeService = inject(EmployeeService);
+
+  // Add signals for loading and error states
+  private loadingSignal = signal<boolean>(false);
+  private errorSignal = signal<string | null>(null);
+
+  // Public readonly accessors
+  readonly loading = this.loadingSignal.asReadonly();
+  readonly error = this.errorSignal.asReadonly();
 
   // We'll keep this for backward compatibility with the template
   get employee(): Employee | null {
@@ -36,9 +46,31 @@ export class EmployeeComponent {
   }
 
   ngOnInit() {
+    this.loadEmployee();
+  }
+
+  loadEmployee(): void {
     const userId = this.route.snapshot.params['userId'];
 
-    // Use the optimized method from the service
-    this.employeeService.getEmployeeByIdOptimized(userId).subscribe();
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+
+    this.employeeService
+      .getEmployeeByIdOptimized(userId)
+      .pipe(
+        catchError((error) => {
+          this.errorSignal.set(
+            'Failed to load employee details. Please try again later.'
+          );
+          console.error('Error loading employee:', error);
+          throw error;
+        }),
+        finalize(() => this.loadingSignal.set(false))
+      )
+      .subscribe();
+  }
+
+  retryLoading(): void {
+    this.loadEmployee();
   }
 }

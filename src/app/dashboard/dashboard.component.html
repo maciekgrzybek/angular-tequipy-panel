@@ -1,5 +1,27 @@
 <div class="mat-elevation-z8">
   <app-search-bar (searchChange)="onSearchChange($event)"></app-search-bar>
+
+  @if (loading()) {
+  <div class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading employees...</p>
+  </div>
+  }
+
+  @if (error()) {
+  <div class="error-container">
+    <p class="error-message">{{ error() }}</p>
+    <button mat-raised-button color="primary" (click)="retryLoading()">Retry</button>
+  </div>
+  }
+
+  @if (!loading() && !error() && dataSource().length === 0) {
+  <div class="empty-state">
+    <p>No employees found.</p>
+  </div>
+  }
+
+  @if (!loading() && !error() && dataSource().length > 0) {
   <table mat-table [dataSource]="dataSource()" class="employee-table">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -31,4 +53,5 @@
     <tr mat-row *matRowDef="let employee; columns: displayedColumns;" class="employee-row"
       [routerLink]="['/employee', employee.id]"></tr>
   </table>
+  }
 </div>
