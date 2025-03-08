@@ -1,1 +1,8 @@
 <p>dashboard works!</p>
+<ul>
+  @for (employee of employees; track employee.id) {
+  <li>
+    <a routerLink="/employee/{{ employee.id }}">{{ employee.name }}</a>
+  </li>
+  }
+</ul>
