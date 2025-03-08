@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { EmployeeService } from '../features/employee/application/employee.service';
-import { Employee } from '../features/employee/application/employee';
+import { EmployeeService } from '../features/employee/employee.service';
+import { Employee } from '../features/employee/employee';
 
 @Component({
   selector: 'app-employee',
