@@ -1,3 +1,43 @@
-<p>employee works!</p>
-<p>{{ employee?.name }}</p>
-<a routerLink="/employee/{{ employee?.id }}/offboard">Offboard</a>
+<div *ngIf="employee">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h1>{{ employee.name }}</h1>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <mat-chip [color]="employee.status === 'ACTIVE' ? 'primary' : 'warn'" selected>
+          {{ employee.status }}
+        </mat-chip>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div>
+        <p><mat-icon>email</mat-icon> {{ employee.email }}</p>
+        <p><mat-icon>business</mat-icon> {{ employee.department }}</p>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div *ngIf="employee.equipments && employee.equipments.length > 0">
+        <h2>Assigned Equipment</h2>
+        <ul>
+          <li *ngFor="let equipment of employee.equipments">
+            {{ equipment.name }}
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <a mat-raised-button color="warn" routerLink="/employee/{{ employee.id }}/offboard"
+        [disabled]="employee.status === 'OFFBOARDED'">
+        <mat-icon>logout</mat-icon> Offboard
+      </a>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div *ngIf="!employee">
+  <mat-spinner></mat-spinner>
+</div>

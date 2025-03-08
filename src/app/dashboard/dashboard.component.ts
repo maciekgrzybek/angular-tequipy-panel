@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, effect, signal } from '@angular/core';
 import { Employee } from '../features/employee/employee';
 import { EmployeeService } from '../features/employee/employee.service';
 import { RouterLink } from '@angular/router';
@@ -14,8 +14,11 @@ import { SearchBarComponent } from '../design-system/search-bar/search-bar.compo
 })
 export class DashboardComponent implements OnInit {
   employeeService = inject(EmployeeService);
-  dataSource: Employee[] = [];
-  allEmployees: Employee[] = [];
+
+  // Create signals for the component state
+  private searchTermSignal = signal<string>('');
+  dataSource = signal<Employee[]>([]);
+
   displayedColumns: string[] = [
     'name',
     'email',
@@ -24,24 +27,33 @@ export class DashboardComponent implements OnInit {
     'status',
   ];
 
-  ngOnInit(): void {
-    this.employeeService.getAllEmployees().subscribe((employees) => {
-      this.allEmployees = employees;
-      this.dataSource = employees;
+  constructor() {
+    // Set up effect to update dataSource when employees signal or search term changes
+    effect(() => {
+      const employees = this.employeeService.employees();
+      const searchTerm = this.searchTermSignal();
+
+      if (!searchTerm) {
+        this.dataSource.set(employees);
+        return;
+      }
+
+      const filteredEmployees = employees.filter(
+        (employee) =>
+          employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          employee.department.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      this.dataSource.set(filteredEmployees);
     });
   }
 
-  onSearchChange(searchTerm: string): void {
-    if (!searchTerm) {
-      this.dataSource = this.allEmployees;
-      return;
-    }
+  ngOnInit(): void {
+    // Refresh employees data when component initializes
+    this.employeeService.refreshEmployees().subscribe();
+  }
 
-    searchTerm = searchTerm.toLowerCase();
-    this.dataSource = this.allEmployees.filter(
-      (employee) =>
-        employee.name.toLowerCase().includes(searchTerm) ||
-        employee.department.toLowerCase().includes(searchTerm)
-    );
+  onSearchChange(searchTerm: string): void {
+    this.searchTermSignal.set(searchTerm);
   }
 }
