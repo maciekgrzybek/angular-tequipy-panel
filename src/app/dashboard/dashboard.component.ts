@@ -13,7 +13,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { EquipmentListPipe } from '../features/equipment/equipment-list.pipe';
 import { SearchBarComponent } from '../design-system/search-bar/search-bar.component';
-import { catchError, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,10 +33,10 @@ export class DashboardComponent implements OnInit {
   employeeService = inject(EmployeeService);
 
   private searchTermSignal = signal<string>('');
-  private loadingSignal = signal<boolean>(false);
-  private errorSignal = signal<string | null>(null);
 
-  // Computed signal for filtered data
+  readonly loading = this.employeeService.loading;
+  readonly error = this.employeeService.error;
+
   readonly filteredEmployees = computed(() => {
     const employees = this.employeeService.employees();
     const searchTerm = this.searchTermSignal();
@@ -54,8 +53,6 @@ export class DashboardComponent implements OnInit {
   });
 
   readonly dataSource = computed(() => this.filteredEmployees());
-  readonly loading = this.loadingSignal.asReadonly();
-  readonly error = this.errorSignal.asReadonly();
 
   displayedColumns: string[] = [
     'name',
@@ -70,22 +67,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadEmployees() {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-
-    this.employeeService
-      .getAllEmployees()
-      .pipe(
-        catchError((error) => {
-          this.errorSignal.set(
-            'Failed to load employees. Please try again later.'
-          );
-          console.error('Error loading employees:', error);
-          throw error;
-        }),
-        finalize(() => this.loadingSignal.set(false))
-      )
-      .subscribe();
+    this.employeeService.getAllEmployees().subscribe();
   }
 
   onSearchChange(searchTerm: string) {

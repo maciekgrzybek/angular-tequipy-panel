@@ -1,7 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Employee } from './employee';
-import { Observable, tap, switchMap, map, catchError, of } from 'rxjs';
+import {
+  Observable,
+  tap,
+  switchMap,
+  map,
+  catchError,
+  of,
+  finalize,
+} from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { EmployeeStore } from './employee.store';
 
@@ -27,6 +35,8 @@ export class EmployeeService {
 
   public readonly employees = this.store.employees;
   public readonly currentEmployee = this.store.currentEmployee;
+  public readonly loading = this.store.loading;
+  public readonly error = this.store.error;
 
   constructor() {
     this.getAllEmployees();
@@ -37,20 +47,30 @@ export class EmployeeService {
   }
 
   getAllEmployees(): Observable<Employee[]> {
+    this.store.setLoading(true);
+    this.store.clearError();
+
     return this.http.get<Employee[]>(`${this.apiUrl}/employees`).pipe(
       tap((employees) => {
         this.store.setEmployees(employees);
       }),
       catchError((error) => {
+        this.store.setError(
+          'Failed to load employees. Please try again later.'
+        );
         console.error('Error fetching employees:', error);
         throw error;
-      })
+      }),
+      finalize(() => this.store.setLoading(false))
     );
   }
 
   private getEmployeeById(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/employees/${id}`).pipe(
       catchError((error) => {
+        this.store.setError(
+          'Failed to load employee details. Please try again later.'
+        );
         console.error(`Error fetching employee with id ${id}:`, error);
         throw error;
       })
@@ -64,14 +84,21 @@ export class EmployeeService {
       this.store.setCurrentEmployee(existingEmployee);
       return of(existingEmployee);
     } else {
+      this.store.setLoading(true);
+      this.store.clearError();
+
       return this.getEmployeeById(id).pipe(
         tap((employee) => {
           this.store.setCurrentEmployee(employee);
         }),
         catchError((error) => {
+          this.store.setError(
+            'Failed to load employee details. Please try again later.'
+          );
           console.error(`Error fetching employee with id ${id}:`, error);
           throw error;
-        })
+        }),
+        finalize(() => this.store.setLoading(false))
       );
     }
   }
@@ -80,6 +107,9 @@ export class EmployeeService {
     id: string,
     offboardingData: OffboardingRequestBody
   ): Observable<Employee> {
+    this.store.setLoading(true);
+    this.store.clearError();
+
     return this.http
       .post<Employee>(
         `${this.apiUrl}/employees/${id}/offboard`,
@@ -93,9 +123,13 @@ export class EmployeeService {
           return this.refreshEmployees().pipe(map(() => updatedEmployee));
         }),
         catchError((error) => {
+          this.store.setError(
+            'Failed to offboard employee. Please try again later.'
+          );
           console.error(`Error offboarding employee with id ${id}:`, error);
           throw error;
-        })
+        }),
+        finalize(() => this.store.setLoading(false))
       );
   }
 }

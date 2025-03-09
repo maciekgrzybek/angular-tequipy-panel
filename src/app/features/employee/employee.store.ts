@@ -7,9 +7,13 @@ import { Employee } from './employee';
 export class EmployeeStore {
   private employeesSignal = signal<Employee[]>([]);
   private currentEmployeeSignal = signal<Employee | null>(null);
+  private loadingSignal = signal<boolean>(false);
+  private errorSignal = signal<string | null>(null);
 
   public readonly employees = this.employeesSignal.asReadonly();
   public readonly currentEmployee = this.currentEmployeeSignal.asReadonly();
+  public readonly loading = this.loadingSignal.asReadonly();
+  public readonly error = this.errorSignal.asReadonly();
 
   setEmployees(employees: Employee[]): void {
     this.employeesSignal.set(employees);
@@ -29,5 +33,17 @@ export class EmployeeStore {
     if (this.currentEmployee()?.id === updatedEmployee.id) {
       this.currentEmployeeSignal.set(updatedEmployee);
     }
+  }
+
+  setLoading(isLoading: boolean): void {
+    this.loadingSignal.set(isLoading);
+  }
+
+  setError(error: string | null): void {
+    this.errorSignal.set(error);
+  }
+
+  clearError(): void {
+    this.errorSignal.set(null);
   }
 }
