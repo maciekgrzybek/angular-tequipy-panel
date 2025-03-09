@@ -1,8 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
-  effect,
   signal,
   computed,
 } from '@angular/core';
@@ -18,6 +18,7 @@ import { catchError, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [
     RouterLink,
     MatTableModule,
@@ -28,6 +29,7 @@ import { catchError, finalize } from 'rxjs';
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
   employeeService = inject(EmployeeService);

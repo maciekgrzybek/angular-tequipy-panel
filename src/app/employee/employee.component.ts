@@ -1,4 +1,10 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { EmployeeService } from '../features/employee/employee.service';
 import { Employee } from '../features/employee/employee';
@@ -7,7 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
-import { NgIf, NgFor } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, finalize } from 'rxjs';
 
@@ -22,11 +27,10 @@ import { catchError, finalize } from 'rxjs';
     MatDividerModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    NgIf,
-    NgFor,
   ],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);

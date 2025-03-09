@@ -1,20 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {
-  Observable,
-  map,
-  startWith,
-  of,
-  debounceTime,
-  distinctUntilChanged,
-} from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-search-bar',
+  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -23,9 +15,10 @@ import { AsyncPipe } from '@angular/common';
   ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBarComponent {
-  @Output() searchChange = new EventEmitter<string>();
+  searchChange = output<string>();
   searchControl = new FormControl('');
 
   constructor() {
