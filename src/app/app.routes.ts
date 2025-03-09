@@ -1,22 +1,28 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { EmployeeComponent } from './employee/employee.component';
-import { OffboardingFormComponent } from './offboarding-form/offboarding-form.component';
 
 export const routes: Routes = [
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadComponent: () =>
+      import('./dashboard/dashboard.component').then(
+        ({ DashboardComponent }) => DashboardComponent
+      ),
     title: 'Dashboard',
   },
   {
     path: 'employee/:userId',
-    component: EmployeeComponent,
+    loadComponent: () =>
+      import('./employee/employee.component').then(
+        ({ EmployeeComponent }) => EmployeeComponent
+      ),
     title: 'Employee',
   },
   {
     path: 'employee/:userId/offboard',
-    component: OffboardingFormComponent,
+    loadComponent: () =>
+      import('./offboarding-form/offboarding-form.component').then(
+        ({ OffboardingFormComponent }) => OffboardingFormComponent
+      ),
     title: 'Offboard Employee',
   },
   {
