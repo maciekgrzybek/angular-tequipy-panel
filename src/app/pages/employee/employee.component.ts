@@ -5,8 +5,8 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { EmployeeService } from '../features/employee/employee.service';
-import { Employee } from '../features/employee/employee';
+import { EmployeeService } from '../../features/employee/employee.service';
+import { Employee } from '../../features/employee/employee';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';

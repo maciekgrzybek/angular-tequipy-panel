@@ -4,7 +4,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./dashboard/dashboard.component').then(
+      import('./pages/dashboard/dashboard.component').then(
         ({ DashboardComponent }) => DashboardComponent
       ),
     title: 'Dashboard',
@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: 'employee/:userId',
     loadComponent: () =>
-      import('./employee/employee.component').then(
+      import('./pages/employee/employee.component').then(
         ({ EmployeeComponent }) => EmployeeComponent
       ),
     title: 'Employee',
@@ -20,7 +20,7 @@ export const routes: Routes = [
   {
     path: 'employee/:userId/offboard',
     loadComponent: () =>
-      import('./offboarding-form/offboarding-form.component').then(
+      import('./pages/offboarding-form/offboarding-form.component').then(
         ({ OffboardingFormComponent }) => OffboardingFormComponent
       ),
     title: 'Offboard Employee',

@@ -5,22 +5,22 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { DashboardComponent } from './dashboard.component';
-import { EmployeeService } from '../features/employee/employee.service';
+import { EmployeeService } from '../../features/employee/employee.service';
 import { provideRouter } from '@angular/router';
-import { Employee } from '../features/employee/employee';
+import { Employee } from '../../features/employee/employee';
 import { provideHttpClient } from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatTableHarness } from '@angular/material/table/testing';
 import { MatProgressSpinnerHarness } from '@angular/material/progress-spinner/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatInputHarness } from '@angular/material/input/testing';
-import { EmployeeBuilder } from '../features/employee/employee.builder';
+import { EmployeeBuilder } from '../../features/employee/employee.builder';
 import { By } from '@angular/platform-browser';
 
 describe('DashboardComponent', () => {

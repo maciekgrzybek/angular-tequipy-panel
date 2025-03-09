@@ -6,13 +6,13 @@ import {
   signal,
   computed,
 } from '@angular/core';
-import { EmployeeService } from '../features/employee/employee.service';
+import { EmployeeService } from '../../features/employee/employee.service';
 import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
-import { EquipmentListPipe } from '../features/equipment/equipment-list.pipe';
-import { SearchBarComponent } from '../design-system/search-bar/search-bar.component';
+import { EquipmentListPipe } from '../../features/equipment/equipment-list.pipe';
+import { SearchBarComponent } from '../../design-system/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-dashboard',

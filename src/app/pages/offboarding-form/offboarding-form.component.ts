@@ -15,8 +15,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   EmployeeService,
   OffboardingRequestBody,
-} from '../features/employee/employee.service';
-import { Employee } from '../features/employee/employee';
+} from '../../features/employee/employee.service';
+import { Employee } from '../../features/employee/employee';
 import { switchMap, tap } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
