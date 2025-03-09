@@ -38,10 +38,6 @@ export class EmployeeService {
   public readonly loading = this.store.loading;
   public readonly error = this.store.error;
 
-  constructor() {
-    this.getAllEmployees();
-  }
-
   refreshEmployees(): Observable<Employee[]> {
     return this.getAllEmployees();
   }

@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -40,23 +45,22 @@ import { MatDividerModule } from '@angular/material/divider';
   ],
   templateUrl: './offboarding-form.component.html',
   styleUrl: './offboarding-form.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OffboardingFormComponent implements OnInit {
   offboardingForm!: FormGroup;
   employeeId!: string;
   isSubmitting = false;
 
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private employeeService = inject(EmployeeService);
+  private snackBar = inject(MatSnackBar);
+
   get employee(): Employee | null {
     return this.employeeService.currentEmployee();
   }
-
-  constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private employeeService: EmployeeService,
-    private snackBar: MatSnackBar
-  ) {}
 
   ngOnInit() {
     this.employeeId = this.route.snapshot.paramMap.get('userId') || '';
