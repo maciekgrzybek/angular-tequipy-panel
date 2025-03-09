@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Employee } from './employee';
 import { Observable, tap, switchMap, map, catchError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { EmployeeStore } from './employee.store';
 
 export interface OffboardingRequestBody {
   address: {
@@ -21,21 +22,11 @@ export interface OffboardingRequestBody {
 })
 export class EmployeeService {
   private apiUrl = environment.apiUrl;
-
   private http = inject(HttpClient);
+  private store = inject(EmployeeStore);
 
-  private employeesSignal = signal<Employee[]>([]);
-  private currentEmployeeSignal = signal<Employee | null>(null);
-  public readonly employees = this.employeesSignal.asReadonly();
-  public readonly currentEmployee = this.currentEmployeeSignal.asReadonly();
-
-  public readonly activeEmployees = computed(() =>
-    this.employeesSignal().filter((emp) => emp.status === 'ACTIVE')
-  );
-
-  public readonly offboardedEmployees = computed(() =>
-    this.employeesSignal().filter((emp) => emp.status === 'OFFBOARDED')
-  );
+  public readonly employees = this.store.employees;
+  public readonly currentEmployee = this.store.currentEmployee;
 
   constructor() {
     this.getAllEmployees();
@@ -48,7 +39,7 @@ export class EmployeeService {
   getAllEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(`${this.apiUrl}/employees`).pipe(
       tap((employees) => {
-        this.employeesSignal.set(employees);
+        this.store.setEmployees(employees);
       }),
       catchError((error) => {
         console.error('Error fetching employees:', error);
@@ -57,7 +48,7 @@ export class EmployeeService {
     );
   }
 
-  getEmployeeById(id: string): Observable<Employee> {
+  private getEmployeeById(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/employees/${id}`).pipe(
       catchError((error) => {
         console.error(`Error fetching employee with id ${id}:`, error);
@@ -70,12 +61,12 @@ export class EmployeeService {
     const existingEmployee = this.employees().find((emp) => emp.id === id);
 
     if (existingEmployee) {
-      this.currentEmployeeSignal.set(existingEmployee);
+      this.store.setCurrentEmployee(existingEmployee);
       return of(existingEmployee);
     } else {
       return this.getEmployeeById(id).pipe(
         tap((employee) => {
-          this.currentEmployeeSignal.set(employee);
+          this.store.setCurrentEmployee(employee);
         }),
         catchError((error) => {
           console.error(`Error fetching employee with id ${id}:`, error);
@@ -96,13 +87,8 @@ export class EmployeeService {
       )
       .pipe(
         switchMap((updatedEmployee) => {
-          this.currentEmployeeSignal.set(updatedEmployee);
-
-          this.employeesSignal.update((employees) => {
-            return employees.map((emp) =>
-              emp.id === updatedEmployee.id ? updatedEmployee : emp
-            );
-          });
+          this.store.setCurrentEmployee(updatedEmployee);
+          this.store.updateEmployee(updatedEmployee);
 
           return this.refreshEmployees().pipe(map(() => updatedEmployee));
         }),
