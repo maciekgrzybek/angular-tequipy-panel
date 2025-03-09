@@ -6,7 +6,6 @@ import {
   signal,
   computed,
 } from '@angular/core';
-import { Employee } from '../features/employee/employee';
 import { EmployeeService } from '../features/employee/employee.service';
 import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
@@ -34,7 +33,6 @@ import { catchError, finalize } from 'rxjs';
 export class DashboardComponent implements OnInit {
   employeeService = inject(EmployeeService);
 
-  // Create signals for the component state
   private searchTermSignal = signal<string>('');
   private loadingSignal = signal<boolean>(false);
   private errorSignal = signal<string | null>(null);
@@ -55,7 +53,6 @@ export class DashboardComponent implements OnInit {
     );
   });
 
-  // Public readonly accessors
   readonly dataSource = computed(() => this.filteredEmployees());
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
@@ -68,21 +65,16 @@ export class DashboardComponent implements OnInit {
     'status',
   ];
 
-  constructor() {
-    // No need for effect here as we're using computed signals
-  }
-
-  ngOnInit(): void {
-    // Refresh employees data when component initializes
+  ngOnInit() {
     this.loadEmployees();
   }
 
-  loadEmployees(): void {
+  loadEmployees() {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
     this.employeeService
-      .refreshEmployees()
+      .getAllEmployees()
       .pipe(
         catchError((error) => {
           this.errorSignal.set(
@@ -96,11 +88,11 @@ export class DashboardComponent implements OnInit {
       .subscribe();
   }
 
-  onSearchChange(searchTerm: string): void {
+  onSearchChange(searchTerm: string) {
     this.searchTermSignal.set(searchTerm);
   }
 
-  retryLoading(): void {
+  retryLoading() {
     this.loadEmployees();
   }
 }
