@@ -4,7 +4,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { EmployeeService } from '../features/employee/employee.service';
 import { Employee } from '../features/employee/employee';
 import { MatCardModule } from '@angular/material/card';
@@ -33,6 +33,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class EmployeeComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly employeeService = inject(EmployeeService);
+  private readonly router = inject(Router);
 
   readonly loading = this.employeeService.loading;
   readonly error = this.employeeService.error;
@@ -53,5 +54,9 @@ export class EmployeeComponent implements OnInit {
 
   retryLoading() {
     this.loadEmployee();
+  }
+
+  navigateToDashboard() {
+    this.router.navigate(['/dashboard']);
   }
 }

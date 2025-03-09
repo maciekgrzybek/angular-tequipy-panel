@@ -2,12 +2,23 @@
   width: 100%;
 }
 
+.top-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-bar-container {
+  width: 100%;
+}
+
 .employee-row {
   cursor: pointer;
 }
 
 .employee-row:hover {
-  background-color: #f5f5f5;
+  background-color: var(--mat-sys-inverse-on-surface);
 }
 
 .loading-container,
@@ -22,11 +33,6 @@
 }
 
 .error-message {
-  color: #f44336;
+  color: var(--mat-sys-error);
   margin-bottom: 1rem;
-}
-
-.mat-elevation-z8 {
-  overflow: hidden;
-  border-radius: 4px;
 }

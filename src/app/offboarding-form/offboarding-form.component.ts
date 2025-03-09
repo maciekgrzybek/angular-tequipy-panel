@@ -19,6 +19,8 @@ import {
 import { Employee } from '../features/employee/employee';
 import { switchMap, tap } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-offboarding-form',
@@ -33,6 +35,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatSnackBarModule,
     RouterModule,
     MatIconModule,
+    MatChipsModule,
+    MatDividerModule,
   ],
   templateUrl: './offboarding-form.component.html',
   styleUrl: './offboarding-form.component.css',

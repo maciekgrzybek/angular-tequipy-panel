@@ -1,7 +1,6 @@
 @if (loading()) {
 <div class="loading-container">
   <mat-spinner diameter="40"></mat-spinner>
-  <p>Loading employee details...</p>
 </div>
 }
 
@@ -46,6 +45,9 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
+    <button mat-button color="primary" (click)="navigateToDashboard()">
+      <mat-icon>arrow_back</mat-icon> Back to Dashboard
+    </button>
     <a mat-raised-button color="warn" routerLink="/employee/{{ employee.id }}/offboard"
       [disabled]="employee.status === 'OFFBOARDED'">
       <mat-icon>logout</mat-icon> Offboard

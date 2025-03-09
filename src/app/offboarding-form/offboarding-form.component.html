@@ -2,7 +2,12 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>Offboard Employee</mat-card-title>
-      <mat-card-subtitle *ngIf="employee">{{ employee.name }}</mat-card-subtitle>
+      <mat-card-subtitle *ngIf="employee">
+        {{ employee.name }}
+        <mat-chip color="warn" selected *ngIf="employee?.status === 'OFFBOARDED'">
+          {{ employee.status }}
+        </mat-chip>
+      </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
@@ -10,13 +15,6 @@
       <div *ngIf="employee?.status === 'OFFBOARDED'" class="offboarded-warning">
         <mat-icon color="warn">warning</mat-icon>
         <p>This employee has already been offboarded and cannot be offboarded again.</p>
-      </div>
-
-      <!-- Back button for offboarded employees -->
-      <div *ngIf="employee?.status === 'OFFBOARDED'" class="action-buttons">
-        <button mat-raised-button color="primary" (click)="onCancel()">
-          <mat-icon>arrow_back</mat-icon> Back to Employee
-        </button>
       </div>
 
       <!-- Only show the form if the employee is not offboarded -->
@@ -60,12 +58,15 @@
           </mat-form-field>
         </div>
 
+        <mat-divider></mat-divider>
+
         <!-- Contact Information -->
         <h3>Contact Information</h3>
 
         <mat-form-field appearance="outline">
           <mat-label>Phone Number</mat-label>
           <input matInput formControlName="phone" placeholder="e.g., +48123123123">
+          <mat-icon matSuffix>phone</mat-icon>
           <mat-error *ngIf="offboardingForm.get('phone')?.hasError('required')">
             Phone number is required
           </mat-error>
@@ -77,6 +78,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" placeholder="e.g., some.email@gmail.com">
+          <mat-icon matSuffix>email</mat-icon>
           <mat-error *ngIf="offboardingForm.get('email')?.hasError('required')">
             Email is required
           </mat-error>
@@ -85,7 +87,10 @@
           </mat-error>
         </mat-form-field>
 
+        <mat-divider></mat-divider>
+
         <!-- Notes -->
+        <h3>Additional Notes</h3>
         <mat-form-field appearance="outline">
           <mat-label>Notes</mat-label>
           <textarea matInput formControlName="notes" rows="4" placeholder="Additional information..."></textarea>
@@ -93,12 +98,21 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-          <button mat-button type="button" (click)="onCancel()">Cancel</button>
-          <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
-            {{ isSubmitting ? 'Processing...' : 'Submit Offboarding' }}
+          <button mat-button type="button" (click)="onCancel()">
+            <mat-icon>cancel</mat-icon> Cancel
+          </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || offboardingForm.invalid">
+            <mat-icon>check_circle</mat-icon> {{ isSubmitting ? 'Processing...' : 'Submit Offboarding' }}
           </button>
         </div>
       </form>
+
+      <!-- Back button for offboarded employees -->
+      <div *ngIf="employee?.status === 'OFFBOARDED'" class="action-buttons">
+        <button mat-raised-button color="primary" (click)="onCancel()">
+          <mat-icon>arrow_back</mat-icon> Back to Employee
+        </button>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
