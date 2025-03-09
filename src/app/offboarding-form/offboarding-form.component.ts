@@ -54,7 +54,7 @@ export class OffboardingFormComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.employeeId = this.route.snapshot.paramMap.get('userId') || '';
 
     if (!this.employeeId) {
@@ -66,7 +66,7 @@ export class OffboardingFormComponent implements OnInit {
     this.loadEmployeeData();
   }
 
-  private initForm(): void {
+  private initForm() {
     this.offboardingForm = this.fb.group({
       address: this.fb.group({
         streetLine1: ['', Validators.required],
@@ -80,7 +80,7 @@ export class OffboardingFormComponent implements OnInit {
     });
   }
 
-  private loadEmployeeData(): void {
+  private loadEmployeeData() {
     this.employeeService
       .getEmployeeByIdOptimized(this.employeeId)
       .pipe(
@@ -113,7 +113,7 @@ export class OffboardingFormComponent implements OnInit {
       });
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.employee?.status === 'OFFBOARDED') {
       this.snackBar.open('This employee is already offboarded', 'Close', {
         duration: 3000,
@@ -148,7 +148,7 @@ export class OffboardingFormComponent implements OnInit {
       });
   }
 
-  private markFormGroupTouched(formGroup: FormGroup): void {
+  private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
       if ((control as FormGroup).controls) {
@@ -157,7 +157,7 @@ export class OffboardingFormComponent implements OnInit {
     });
   }
 
-  onCancel(): void {
+  onCancel() {
     this.router.navigate(['/employee', this.employeeId]);
   }
 }

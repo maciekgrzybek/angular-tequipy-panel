@@ -15,15 +15,15 @@ export class EmployeeStore {
   public readonly loading = this.loadingSignal.asReadonly();
   public readonly error = this.errorSignal.asReadonly();
 
-  setEmployees(employees: Employee[]): void {
+  setEmployees(employees: Employee[]) {
     this.employeesSignal.set(employees);
   }
 
-  setCurrentEmployee(employee: Employee | null): void {
+  setCurrentEmployee(employee: Employee | null) {
     this.currentEmployeeSignal.set(employee);
   }
 
-  updateEmployee(updatedEmployee: Employee): void {
+  updateEmployee(updatedEmployee: Employee) {
     this.employeesSignal.update((employees) => {
       return employees.map((emp) =>
         emp.id === updatedEmployee.id ? updatedEmployee : emp
@@ -35,15 +35,15 @@ export class EmployeeStore {
     }
   }
 
-  setLoading(isLoading: boolean): void {
+  setLoading(isLoading: boolean) {
     this.loadingSignal.set(isLoading);
   }
 
-  setError(error: string | null): void {
+  setError(error: string | null) {
     this.errorSignal.set(error);
   }
 
-  clearError(): void {
+  clearError() {
     this.errorSignal.set(null);
   }
 }

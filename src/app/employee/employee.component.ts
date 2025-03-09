@@ -46,12 +46,12 @@ export class EmployeeComponent implements OnInit {
     this.loadEmployee();
   }
 
-  loadEmployee(): void {
+  loadEmployee() {
     const userId = this.route.snapshot.params['userId'];
     this.employeeService.getEmployeeByIdOptimized(userId).subscribe();
   }
 
-  retryLoading(): void {
+  retryLoading() {
     this.loadEmployee();
   }
 }

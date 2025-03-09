@@ -67,7 +67,7 @@ const readDatabase = (): {
 const writeDatabase = (data: {
   employees: Employee[];
   offboardingRequests: OffboardingRequest[];
-}): void => {
+}) => {
   fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 };
 
