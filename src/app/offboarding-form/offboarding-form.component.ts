@@ -42,7 +42,6 @@ export class OffboardingFormComponent implements OnInit {
   employeeId!: string;
   isSubmitting = false;
 
-  // Use the employee from the service
   get employee(): Employee | null {
     return this.employeeService.currentEmployee();
   }
@@ -56,7 +55,6 @@ export class OffboardingFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Get the employee ID from the route
     this.employeeId = this.route.snapshot.paramMap.get('userId') || '';
 
     if (!this.employeeId) {
@@ -64,11 +62,7 @@ export class OffboardingFormComponent implements OnInit {
       this.router.navigate(['/dashboard']);
       return;
     }
-
-    // Initialize the form
     this.initForm();
-
-    // Load employee data
     this.loadEmployeeData();
   }
 
@@ -91,7 +85,6 @@ export class OffboardingFormComponent implements OnInit {
       .getEmployeeByIdOptimized(this.employeeId)
       .pipe(
         tap((employee) => {
-          // Check if employee is already offboarded
           if (employee.status === 'OFFBOARDED') {
             this.snackBar.open('This employee is already offboarded', 'Close', {
               duration: 5000,
@@ -99,7 +92,6 @@ export class OffboardingFormComponent implements OnInit {
             return;
           }
 
-          // Pre-populate email field if available
           if (employee.email) {
             this.offboardingForm.patchValue({
               email: employee.email,
@@ -122,7 +114,6 @@ export class OffboardingFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Check if employee is already offboarded
     if (this.employee?.status === 'OFFBOARDED') {
       this.snackBar.open('This employee is already offboarded', 'Close', {
         duration: 3000,
@@ -157,7 +148,6 @@ export class OffboardingFormComponent implements OnInit {
       });
   }
 
-  // Helper method to mark all form controls as touched
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
@@ -167,7 +157,6 @@ export class OffboardingFormComponent implements OnInit {
     });
   }
 
-  // Cancel and go back
   onCancel(): void {
     this.router.navigate(['/employee', this.employeeId]);
   }

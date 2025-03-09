@@ -22,37 +22,25 @@ export interface OffboardingRequestBody {
 export class EmployeeService {
   private apiUrl = environment.apiUrl;
 
-  // Use functional injection instead of constructor injection
   private http = inject(HttpClient);
 
-  // Signal to store the list of employees
   private employeesSignal = signal<Employee[]>([]);
-
-  // Signal to store the currently selected employee
   private currentEmployeeSignal = signal<Employee | null>(null);
-
-  // Public readonly accessor for the employees signal
   public readonly employees = this.employeesSignal.asReadonly();
-
-  // Public readonly accessor for the current employee signal
   public readonly currentEmployee = this.currentEmployeeSignal.asReadonly();
 
-  // Computed signal for active employees
   public readonly activeEmployees = computed(() =>
     this.employeesSignal().filter((emp) => emp.status === 'ACTIVE')
   );
 
-  // Computed signal for offboarded employees
   public readonly offboardedEmployees = computed(() =>
     this.employeesSignal().filter((emp) => emp.status === 'OFFBOARDED')
   );
 
   constructor() {
-    // Initialize employees on service creation
     this.getAllEmployees();
   }
 
-  // Public method to refresh employees data
   refreshEmployees(): Observable<Employee[]> {
     return this.getAllEmployees();
   }
@@ -64,7 +52,7 @@ export class EmployeeService {
       }),
       catchError((error) => {
         console.error('Error fetching employees:', error);
-        return of([]);
+        throw error;
       })
     );
   }
@@ -79,18 +67,14 @@ export class EmployeeService {
   }
 
   getEmployeeByIdOptimized(id: string): Observable<Employee> {
-    // First check if the employee is already available locally
     const existingEmployee = this.employees().find((emp) => emp.id === id);
 
     if (existingEmployee) {
-      // Set the current employee signal and return as Observable
       this.currentEmployeeSignal.set(existingEmployee);
       return of(existingEmployee);
     } else {
-      // Fetch from API if not available locally
       return this.getEmployeeById(id).pipe(
         tap((employee) => {
-          // Update the current employee signal with the fetched data
           this.currentEmployeeSignal.set(employee);
         }),
         catchError((error) => {
@@ -111,23 +95,16 @@ export class EmployeeService {
         offboardingData
       )
       .pipe(
-        // Capture the updated employee from the offboarding response
         switchMap((updatedEmployee) => {
-          // Update the current employee signal
           this.currentEmployeeSignal.set(updatedEmployee);
 
-          // First update the specific employee in the signal list
           this.employeesSignal.update((employees) => {
             return employees.map((emp) =>
               emp.id === updatedEmployee.id ? updatedEmployee : emp
             );
           });
 
-          // Then refresh the entire list to ensure we have the most up-to-date data
-          return this.refreshEmployees().pipe(
-            // Return the original updated employee from the offboarding response
-            map(() => updatedEmployee)
-          );
+          return this.refreshEmployees().pipe(map(() => updatedEmployee));
         }),
         catchError((error) => {
           console.error(`Error offboarding employee with id ${id}:`, error);

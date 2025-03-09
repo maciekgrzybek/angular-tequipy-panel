@@ -23,10 +23,7 @@ export class SearchBarComponent {
 
   constructor() {
     this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300), // Wait for 300ms pause in events
-        distinctUntilChanged() // Only emit when the current value is different than the last
-      )
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((value) => {
         this.searchChange.emit(value || '');
       });
