@@ -15,7 +15,6 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
       }
       console.error(errorMessage);
 
-      // TODO: add rollbar etc
       return throwError(() => error);
     })
   );

@@ -2,59 +2,72 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>Offboard Employee</mat-card-title>
-      <mat-card-subtitle *ngIf="employee">
+      @if (employee) {
+      <mat-card-subtitle>
         {{ employee.name }}
-        <mat-chip color="warn" selected *ngIf="employee?.status === 'OFFBOARDED'">
+        @if (employee.status === 'OFFBOARDED') {
+        <mat-chip color="warn" selected>
           {{ employee.status }}
         </mat-chip>
+        }
       </mat-card-subtitle>
+      }
     </mat-card-header>
 
     <mat-card-content>
-      <!-- Warning message for already offboarded employees -->
-      <div *ngIf="employee?.status === 'OFFBOARDED'" class="offboarded-warning">
+
+      @if (employee?.status === 'OFFBOARDED') {
+      <div class="offboarded-warning">
         <mat-icon color="warn">warning</mat-icon>
         <p>This employee has already been offboarded and cannot be offboarded again.</p>
       </div>
+      }
 
-      <!-- Only show the form if the employee is not offboarded -->
-      <form *ngIf="employee && employee.status !== 'OFFBOARDED'" [formGroup]="offboardingForm" (ngSubmit)="onSubmit()">
-        <!-- Address Section -->
+      @if (employee && employee.status !== 'OFFBOARDED') {
+      <form [formGroup]="offboardingForm" (ngSubmit)="onSubmit()">
         <div formGroupName="address">
           <h3>Return Address</h3>
 
           <mat-form-field appearance="outline">
             <mat-label>Street Address</mat-label>
             <input matInput formControlName="streetLine1" placeholder="e.g., Kocmyrzowska 1">
-            <mat-error *ngIf="offboardingForm.get('address.streetLine1')?.hasError('required')">
+            @if (offboardingForm.get('address.streetLine1')?.hasError('required')) {
+            <mat-error>
               Street address is required
             </mat-error>
+            }
           </mat-form-field>
 
           <div>
             <mat-form-field appearance="outline">
               <mat-label>Country</mat-label>
               <input matInput formControlName="country" placeholder="e.g., Poland">
-              <mat-error *ngIf="offboardingForm.get('address.country')?.hasError('required')">
+              @if (offboardingForm.get('address.country')?.hasError('required')) {
+              <mat-error>
                 Country is required
               </mat-error>
+              }
             </mat-form-field>
 
             <mat-form-field appearance="outline">
               <mat-label>Postal Code</mat-label>
               <input matInput formControlName="postalCode" placeholder="e.g., 13-231">
-              <mat-error *ngIf="offboardingForm.get('address.postalCode')?.hasError('required')">
+              @if (offboardingForm.get('address.postalCode')?.hasError('required')) {
+              <mat-error>
                 Postal code is required
               </mat-error>
+              }
             </mat-form-field>
           </div>
 
           <mat-form-field appearance="outline">
             <mat-label>Receiver</mat-label>
             <input matInput formControlName="receiver" placeholder="e.g., Stefan Batory">
-            <mat-error *ngIf="offboardingForm.get('address.receiver')?.hasError('required')">
+            @if (offboardingForm.get('address.receiver')?.hasError('required')) {
+            <mat-error>
               Receiver name is required
             </mat-error>
+            }
           </mat-form-field>
         </div>
 
@@ -67,24 +80,32 @@
           <mat-label>Phone Number</mat-label>
           <input matInput formControlName="phone" placeholder="e.g., +48123123123">
           <mat-icon matSuffix>phone</mat-icon>
-          <mat-error *ngIf="offboardingForm.get('phone')?.hasError('required')">
+          @if (offboardingForm.get('phone')?.hasError('required')) {
+          <mat-error>
             Phone number is required
           </mat-error>
-          <mat-error *ngIf="offboardingForm.get('phone')?.hasError('pattern')">
+          }
+          @if (offboardingForm.get('phone')?.hasError('pattern')) {
+          <mat-error>
             Please enter a valid phone number (format: +48123123123)
           </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" placeholder="e.g., some.email@gmail.com">
           <mat-icon matSuffix>email</mat-icon>
-          <mat-error *ngIf="offboardingForm.get('email')?.hasError('required')">
+          @if (offboardingForm.get('email')?.hasError('required')) {
+          <mat-error>
             Email is required
           </mat-error>
-          <mat-error *ngIf="offboardingForm.get('email')?.hasError('email')">
+          }
+          @if (offboardingForm.get('email')?.hasError('email')) {
+          <mat-error>
             Please enter a valid email address
           </mat-error>
+          }
         </mat-form-field>
 
         <mat-divider />
@@ -106,13 +127,16 @@
           </button>
         </div>
       </form>
+      }
 
       <!-- Back button for offboarded employees -->
-      <div *ngIf="employee?.status === 'OFFBOARDED'" class="action-buttons">
+      @if (employee?.status === 'OFFBOARDED') {
+      <div class="action-buttons">
         <button mat-raised-button color="primary" (click)="onCancel()">
           <mat-icon>arrow_back</mat-icon> Back to Employee
         </button>
       </div>
+      }
     </mat-card-content>
   </mat-card>
 </div>

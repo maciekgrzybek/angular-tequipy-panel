@@ -34,9 +34,12 @@ export class EmployeeService {
   private store = inject(EmployeeStore);
 
   public readonly employees = this.store.employees;
-  public readonly currentEmployee = this.store.currentEmployee;
   public readonly loading = this.store.loading;
   public readonly error = this.store.error;
+
+  getEmployeeById(id: string): Employee | null {
+    return this.employees().find((emp) => emp.id === id) || null;
+  }
 
   refreshEmployees(): Observable<Employee[]> {
     return this.getAllEmployees();
@@ -61,7 +64,7 @@ export class EmployeeService {
     );
   }
 
-  private getEmployeeById(id: string): Observable<Employee> {
+  private fetchEmployeeById(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/employees/${id}`).pipe(
       catchError((error) => {
         this.store.setError(
@@ -77,15 +80,16 @@ export class EmployeeService {
     const existingEmployee = this.employees().find((emp) => emp.id === id);
 
     if (existingEmployee) {
-      this.store.setCurrentEmployee(existingEmployee);
       return of(existingEmployee);
     } else {
       this.store.setLoading(true);
       this.store.clearError();
 
-      return this.getEmployeeById(id).pipe(
+      return this.fetchEmployeeById(id).pipe(
         tap((employee) => {
-          this.store.setCurrentEmployee(employee);
+          if (!this.employees().some((emp) => emp.id === employee.id)) {
+            this.store.setEmployees([...this.employees(), employee]);
+          }
         }),
         catchError((error) => {
           this.store.setError(
@@ -113,9 +117,7 @@ export class EmployeeService {
       )
       .pipe(
         switchMap((updatedEmployee) => {
-          this.store.setCurrentEmployee(updatedEmployee);
           this.store.updateEmployee(updatedEmployee);
-
           return this.refreshEmployees().pipe(map(() => updatedEmployee));
         }),
         catchError((error) => {

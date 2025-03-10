@@ -1,5 +1,4 @@
 import { EquipmentListPipe } from './equipment-list.pipe';
-import { Equipment } from '../employee/employee';
 
 describe('EquipmentListPipe', () => {
   const testCases = [

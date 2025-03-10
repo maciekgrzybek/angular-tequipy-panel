@@ -1,61 +1,59 @@
-<div class="mat-elevation-z8">
-  <div class="top-bar">
-    <h1>Employees</h1>
-    <div class="search-bar-container">
-      <app-search-bar (searchChange)="onSearchChange($event)"></app-search-bar>
-    </div>
+<div class="top-bar">
+  <h1>Employees</h1>
+  <div class="search-bar-container">
+    <app-search-bar (searchChange)="onSearchChange($event)"></app-search-bar>
   </div>
-
-  @if (loading()) {
-  <div class="loading-container">
-    <mat-spinner diameter="40"></mat-spinner>
-  </div>
-  }
-
-  @if (error()) {
-  <div class="error-container">
-    <p class="error-message">{{ error() }}</p>
-    <button mat-raised-button color="primary" (click)="retryLoading()">Retry</button>
-  </div>
-  }
-
-  @if (!loading() && !error() && dataSource().length === 0) {
-  <div class="empty-state">
-    <p>No employees found.</p>
-  </div>
-  }
-
-  @if (!loading() && !error() && dataSource().length > 0) {
-  <table mat-table [dataSource]="dataSource()" class="employee-table">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let employee">{{ employee.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let employee">{{ employee.email }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="department">
-      <th mat-header-cell *matHeaderCellDef>Department</th>
-      <td mat-cell *matCellDef="let employee">{{ employee.department }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="equipment">
-      <th mat-header-cell *matHeaderCellDef>Equipment</th>
-      <td mat-cell *matCellDef="let employee">{{ employee.equipments | equipmentList }}</td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let employee">{{ employee.status }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let employee; columns: displayedColumns;" class="employee-row"
-      [routerLink]="['/employee', employee.id]"></tr>
-  </table>
-  }
 </div>
+
+@if (loading()) {
+<div class="loading-container">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>
+}
+
+@if (error()) {
+<div class="error-container">
+  <p class="error-message">{{ error() }}</p>
+  <button mat-raised-button color="primary" (click)="retryLoading()">Retry</button>
+</div>
+}
+
+@if (!loading() && !error() && dataSource().length === 0) {
+<div class="empty-state">
+  <p>No employees found.</p>
+</div>
+}
+
+@if (!loading() && !error() && dataSource().length > 0) {
+<table mat-table [dataSource]="dataSource()" class="employee-table">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.email }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="department">
+    <th mat-header-cell *matHeaderCellDef>Department</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.department }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="equipment">
+    <th mat-header-cell *matHeaderCellDef>Equipment</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.equipments | equipmentList }}</td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.status }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let employee; columns: displayedColumns;" class="employee-row"
+    [routerLink]="['/employee', employee.id]"></tr>
+</table>
+}

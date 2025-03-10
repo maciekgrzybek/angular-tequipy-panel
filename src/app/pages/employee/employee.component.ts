@@ -37,10 +37,10 @@ export class EmployeeComponent implements OnInit {
 
   readonly loading = this.employeeService.loading;
   readonly error = this.employeeService.error;
+  private employeeId: string = '';
 
-  // We'll keep this for backward compatibility with the template
   get employee(): Employee | null {
-    return this.employeeService.currentEmployee();
+    return this.employeeService.getEmployeeById(this.employeeId);
   }
 
   ngOnInit() {
@@ -48,8 +48,8 @@ export class EmployeeComponent implements OnInit {
   }
 
   loadEmployee() {
-    const userId = this.route.snapshot.params['userId'];
-    this.employeeService.getEmployeeByIdOptimized(userId).subscribe();
+    this.employeeId = this.route.snapshot.params['userId'];
+    this.employeeService.getEmployeeByIdOptimized(this.employeeId).subscribe();
   }
 
   retryLoading() {
