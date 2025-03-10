@@ -2,65 +2,92 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.5.
 
+## Setup and Installation
+
+Before running the project, you'll need to install dependencies for both the client and server:
+
+```bash
+# Install client dependencies
+npm install
+
+# Install server dependencies
+cd server
+npm install
+cd ..
+```
+
 ## Development server
 
 To start a local development server, run:
 
 ```bash
-ng serve
+ng run dev
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The mocked API is under `http://localhost:3000/`. This command will run both frontend and the mocked API.
 
 ## Running unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+## Project Architecture and My Implementation Choices
 
-For end-to-end (e2e) testing, run:
+### Backend Implementation
 
-```bash
-ng e2e
-```
+- I've set up the backend using json-server to provide a mocked API
+- I kept it simple for this task, but in a real-world scenario, I'd definitely add functionality to track the history of changes
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Architecture Decisions
 
-## Additional Resources
+#### Why I Skipped SSR/SSG
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- I decided not to implement Server-Side Rendering (SSR) or Static Site Generation (SSG) since this is an internal admin panel. We don't need the SEO benefits or the slightly faster initial load that these approaches would provide.
 
+#### My Approach to the Design System
 
+- I created a "design-system" folder for reusable UI components
+- Yeah, it might seem like overkill for a small project like this, but it's how I'd approach a real-world app. Having a consistent set of UI building blocks makes development so much faster as the app grows!
 
+#### How I Handled State Management
 
-MY NOTES:
-- why no ssg and ssr
-- are rest names ok?
+- I separated the employee data fetching service from the state management store
+- This decoupling makes the code easier to maintain and test - something I've found super helpful on larger projects
+
+#### How I Structured the Project
+
+- I organized the app into feature modules rather than technical divisions
+- UI components live in the "pages" folder
+- I find this approach makes the codebase much more intuitive to navigate, especially when onboarding new team members
+
+### Testing Approach
+
+- I've implemented unit tests for the Dashboard component
+- In a real project, I'd add:
+  - E2E tests for the main user flows
+  - More unit and integration tests throughout
+  - Some handy test utilities for rendering components with the right setup
+  - Helper functions to make element queries in tests less painful
+
+### API Tweaks
+
+- I updated the offboard endpoint to use "employees" instead of "users" for consistency (looked like a typo in the original spec)
+
+## What I'd Add Given More Time
+
+Here's what I'd improve if this were a production app:
+
+- **Data Caching**: I'd implement caching to speed things up, especially once we have more data
+- **UX Improvements**:
+  - Quick-copy buttons for user emails and IDs (super handy for admin panels!)
+  - Column filtering in the dashboard (I've worked on similar admin panels before, and this is always requested)
+- **Better Error Handling**: I'd hook up Rollbar or Sentry to catch and report issues
+- **Design System Expansion**:
+  - I'd move the input components and snackbar into the design system
+  - Add phone number input with selectable country code prefixes
+- **Component Refinements**:
+  - Extract those form inputs into reusable components
+  - Move more UI logic from the pages into the feature modules
